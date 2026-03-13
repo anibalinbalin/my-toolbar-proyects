@@ -40,5 +40,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.anibalin.ProjectPulseTests
+        GENERATE_INFOPLIST_FILE: true
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ProjectPulse.app/Contents/MacOS/ProjectPulse"
         BUNDLE_LOADER: "$(TEST_HOST)"

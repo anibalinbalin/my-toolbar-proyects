@@ -1,6 +1,8 @@
-import Testing
+import XCTest
 @testable import ProjectPulse
 
-@Test func placeholder() {
-    #expect(true)
+final class ProjectPulseTests: XCTestCase {
+    func testPlaceholder() {
+        XCTAssertTrue(true)
+    }
 }
