@@ -25,6 +25,10 @@ struct ProjectPulseApp: App {
                 .font(.system(size: 8))
         }
         .menuBarExtraStyle(.window)
+
+        Settings {
+            SettingsView()
+        }
     }
 
     private func refreshProjects() async {

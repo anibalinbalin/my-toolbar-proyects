@@ -4,6 +4,15 @@ struct ProjectRowView: View {
     let project: Project
     @State private var isHovered = false
 
+    private static let vsCodePath: String? = {
+        let candidates = [
+            "/usr/local/bin/code",
+            "/opt/homebrew/bin/code",
+            NSHomeDirectory() + "/.local/bin/code"
+        ]
+        return candidates.first { FileManager.default.isExecutableFile(atPath: $0) }
+    }()
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
@@ -41,6 +50,22 @@ struct ProjectRowView: View {
         .onHover { hovering in
             withAnimation(.spring(duration: 0.25, bounce: 0.15)) {
                 isHovered = hovering
+            }
+        }
+        .contextMenu {
+            Button("Open in Finder") {
+                NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: project.path)
+            }
+            Button("Copy Path") {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(project.path, forType: .string)
+            }
+            if Self.vsCodePath != nil {
+                Button("Open in VS Code") {
+                    if let codePath = Self.vsCodePath {
+                        _ = try? ShellCommand.run(codePath, arguments: [project.path])
+                    }
+                }
             }
         }
     }

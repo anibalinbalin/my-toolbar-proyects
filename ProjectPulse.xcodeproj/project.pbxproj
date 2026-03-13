@@ -21,6 +21,7 @@
 		8EE1231DB6B6B06800E12681 /* GitScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539A12B73F4CC406F492E57 /* GitScanner.swift */; };
 		B6E785BB558E3AAF6CCD24BF /* FreshnessBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C59C43B3CDEB9D4AC7EC7 /* FreshnessBarView.swift */; };
 		BE64F51CA7A705CC87365291 /* ProjectRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5923A141075197782879BE2 /* ProjectRowView.swift */; };
+		FBC3D335C5A78BFDAC3559BB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8990902E448BF01D7A0D58 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		A3C74B98F2EBBB1A0ED25FFD /* ProjectPulseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectPulseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B004AE9CD3D89F916CE42510 /* GitScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitScannerTests.swift; sourceTree = "<group>"; };
 		B2004AA43B85FEA9D59AD7B9 /* ProjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListView.swift; sourceTree = "<group>"; };
+		BF8990902E448BF01D7A0D58 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CF385808A0FACEAA1C108DA3 /* ShellCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCommand.swift; sourceTree = "<group>"; };
 		E5923A141075197782879BE2 /* ProjectRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectRowView.swift; sourceTree = "<group>"; };
 		ED64ABD5DCC55CD45DE89ADC /* ProjectPulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPulseApp.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				234C59C43B3CDEB9D4AC7EC7 /* FreshnessBarView.swift */,
 				B2004AA43B85FEA9D59AD7B9 /* ProjectListView.swift */,
 				E5923A141075197782879BE2 /* ProjectRowView.swift */,
+				BF8990902E448BF01D7A0D58 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				4DFC9AAE2552535D6189C1CC /* ProjectListView.swift in Sources */,
 				485E1E434B99D531624AF1C5 /* ProjectPulseApp.swift in Sources */,
 				BE64F51CA7A705CC87365291 /* ProjectRowView.swift in Sources */,
+				FBC3D335C5A78BFDAC3559BB /* SettingsView.swift in Sources */,
 				1653A2D2BC93FCEEEF8E369B /* ShellCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
