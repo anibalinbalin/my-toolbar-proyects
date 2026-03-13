@@ -14,9 +14,13 @@
 		2EDF353AB9DDBA4D9EC77E55 /* GitInfoProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2696CAED935EFED2E15A6AAF /* GitInfoProviderTests.swift */; };
 		3BF826BB7E1C167CC5B7E7E4 /* ProjectPulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A5C1178F7AD9DAED490CA4 /* ProjectPulseTests.swift */; };
 		485E1E434B99D531624AF1C5 /* ProjectPulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED64ABD5DCC55CD45DE89ADC /* ProjectPulseApp.swift */; };
+		4DFC9AAE2552535D6189C1CC /* ProjectListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2004AA43B85FEA9D59AD7B9 /* ProjectListView.swift */; };
 		6106C75A0B47C48D37989A10 /* GitScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B004AE9CD3D89F916CE42510 /* GitScannerTests.swift */; };
 		66ACA74E2CD8D75CF41FD5DD /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D0ACFD6C24A1F5CAEFC6D2 /* Project.swift */; };
+		71A50BCA851B8432ACC0D771 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F33E0C7B9E2BFB7A1C3879E /* AppSettings.swift */; };
 		8EE1231DB6B6B06800E12681 /* GitScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539A12B73F4CC406F492E57 /* GitScanner.swift */; };
+		B6E785BB558E3AAF6CCD24BF /* FreshnessBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234C59C43B3CDEB9D4AC7EC7 /* FreshnessBarView.swift */; };
+		BE64F51CA7A705CC87365291 /* ProjectRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5923A141075197782879BE2 /* ProjectRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,15 +37,19 @@
 		05B2097738385308EFF69005 /* ProjectPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA475D976BB2B222AFA3465 /* ShellCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCommandTests.swift; sourceTree = "<group>"; };
 		16D0ACFD6C24A1F5CAEFC6D2 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		234C59C43B3CDEB9D4AC7EC7 /* FreshnessBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessBarView.swift; sourceTree = "<group>"; };
 		2696CAED935EFED2E15A6AAF /* GitInfoProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfoProviderTests.swift; sourceTree = "<group>"; };
 		4947719F5BB31AF867CA0333 /* GitInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfoProvider.swift; sourceTree = "<group>"; };
 		4C965DF3A2DC1209AE9E689B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4F33E0C7B9E2BFB7A1C3879E /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		79243EEB7CA62AE1C353C5A8 /* ProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTests.swift; sourceTree = "<group>"; };
 		8539A12B73F4CC406F492E57 /* GitScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitScanner.swift; sourceTree = "<group>"; };
 		98A5C1178F7AD9DAED490CA4 /* ProjectPulseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPulseTests.swift; sourceTree = "<group>"; };
 		A3C74B98F2EBBB1A0ED25FFD /* ProjectPulseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectPulseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B004AE9CD3D89F916CE42510 /* GitScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitScannerTests.swift; sourceTree = "<group>"; };
+		B2004AA43B85FEA9D59AD7B9 /* ProjectListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListView.swift; sourceTree = "<group>"; };
 		CF385808A0FACEAA1C108DA3 /* ShellCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCommand.swift; sourceTree = "<group>"; };
+		E5923A141075197782879BE2 /* ProjectRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectRowView.swift; sourceTree = "<group>"; };
 		ED64ABD5DCC55CD45DE89ADC /* ProjectPulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPulseApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +61,7 @@
 				ED64ABD5DCC55CD45DE89ADC /* ProjectPulseApp.swift */,
 				A4CA2D68E041E2175334BE0D /* Models */,
 				A484AA1837503A0518B0B8F2 /* Services */,
+				E964B4A0F42C7C299A1E09F2 /* Views */,
 			);
 			path = ProjectPulse;
 			sourceTree = "<group>";
@@ -82,6 +91,7 @@
 		A4CA2D68E041E2175334BE0D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4F33E0C7B9E2BFB7A1C3879E /* AppSettings.swift */,
 				16D0ACFD6C24A1F5CAEFC6D2 /* Project.swift */,
 			);
 			path = Models;
@@ -103,6 +113,16 @@
 				A3C74B98F2EBBB1A0ED25FFD /* ProjectPulseTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E964B4A0F42C7C299A1E09F2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				234C59C43B3CDEB9D4AC7EC7 /* FreshnessBarView.swift */,
+				B2004AA43B85FEA9D59AD7B9 /* ProjectListView.swift */,
+				E5923A141075197782879BE2 /* ProjectRowView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,10 +199,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71A50BCA851B8432ACC0D771 /* AppSettings.swift in Sources */,
+				B6E785BB558E3AAF6CCD24BF /* FreshnessBarView.swift in Sources */,
 				0B6AB469822A9AA2E51A8C28 /* GitInfoProvider.swift in Sources */,
 				8EE1231DB6B6B06800E12681 /* GitScanner.swift in Sources */,
 				66ACA74E2CD8D75CF41FD5DD /* Project.swift in Sources */,
+				4DFC9AAE2552535D6189C1CC /* ProjectListView.swift in Sources */,
 				485E1E434B99D531624AF1C5 /* ProjectPulseApp.swift in Sources */,
+				BE64F51CA7A705CC87365291 /* ProjectRowView.swift in Sources */,
 				1653A2D2BC93FCEEEF8E369B /* ShellCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
