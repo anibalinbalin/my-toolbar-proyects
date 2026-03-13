@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B6AB469822A9AA2E51A8C28 /* GitInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947719F5BB31AF867CA0333 /* GitInfoProvider.swift */; };
 		12206E81069384C171C9AE43 /* ProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79243EEB7CA62AE1C353C5A8 /* ProjectTests.swift */; };
 		1653A2D2BC93FCEEEF8E369B /* ShellCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF385808A0FACEAA1C108DA3 /* ShellCommand.swift */; };
 		2825621CF689BD62184078F2 /* ShellCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA475D976BB2B222AFA3465 /* ShellCommandTests.swift */; };
+		2EDF353AB9DDBA4D9EC77E55 /* GitInfoProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2696CAED935EFED2E15A6AAF /* GitInfoProviderTests.swift */; };
 		3BF826BB7E1C167CC5B7E7E4 /* ProjectPulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A5C1178F7AD9DAED490CA4 /* ProjectPulseTests.swift */; };
 		485E1E434B99D531624AF1C5 /* ProjectPulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED64ABD5DCC55CD45DE89ADC /* ProjectPulseApp.swift */; };
 		6106C75A0B47C48D37989A10 /* GitScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B004AE9CD3D89F916CE42510 /* GitScannerTests.swift */; };
@@ -31,6 +33,8 @@
 		05B2097738385308EFF69005 /* ProjectPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA475D976BB2B222AFA3465 /* ShellCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCommandTests.swift; sourceTree = "<group>"; };
 		16D0ACFD6C24A1F5CAEFC6D2 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		2696CAED935EFED2E15A6AAF /* GitInfoProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfoProviderTests.swift; sourceTree = "<group>"; };
+		4947719F5BB31AF867CA0333 /* GitInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfoProvider.swift; sourceTree = "<group>"; };
 		4C965DF3A2DC1209AE9E689B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		79243EEB7CA62AE1C353C5A8 /* ProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTests.swift; sourceTree = "<group>"; };
 		8539A12B73F4CC406F492E57 /* GitScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitScanner.swift; sourceTree = "<group>"; };
@@ -56,6 +60,7 @@
 		940B2942EC40355E12A0BC21 /* ProjectPulseTests */ = {
 			isa = PBXGroup;
 			children = (
+				2696CAED935EFED2E15A6AAF /* GitInfoProviderTests.swift */,
 				B004AE9CD3D89F916CE42510 /* GitScannerTests.swift */,
 				98A5C1178F7AD9DAED490CA4 /* ProjectPulseTests.swift */,
 				79243EEB7CA62AE1C353C5A8 /* ProjectTests.swift */,
@@ -67,6 +72,7 @@
 		A484AA1837503A0518B0B8F2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				4947719F5BB31AF867CA0333 /* GitInfoProvider.swift */,
 				8539A12B73F4CC406F492E57 /* GitScanner.swift */,
 				CF385808A0FACEAA1C108DA3 /* ShellCommand.swift */,
 			);
@@ -173,6 +179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6AB469822A9AA2E51A8C28 /* GitInfoProvider.swift in Sources */,
 				8EE1231DB6B6B06800E12681 /* GitScanner.swift in Sources */,
 				66ACA74E2CD8D75CF41FD5DD /* Project.swift in Sources */,
 				485E1E434B99D531624AF1C5 /* ProjectPulseApp.swift in Sources */,
@@ -184,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EDF353AB9DDBA4D9EC77E55 /* GitInfoProviderTests.swift in Sources */,
 				6106C75A0B47C48D37989A10 /* GitScannerTests.swift in Sources */,
 				3BF826BB7E1C167CC5B7E7E4 /* ProjectPulseTests.swift in Sources */,
 				12206E81069384C171C9AE43 /* ProjectTests.swift in Sources */,
