@@ -1,0 +1,44 @@
+name: ProjectPulse
+options:
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "15.4"
+  fileTypes:
+    "project.pbxproj":
+      objectVersion: 56
+  bundleIdPrefix: com.anibalin
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+targets:
+  ProjectPulse:
+    type: application
+    platform: macOS
+    sources:
+      - ProjectPulse
+    info:
+      path: ProjectPulse/Info.plist
+      properties:
+        LSUIElement: true
+        CFBundleName: ProjectPulse
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.anibalin.ProjectPulse
+        INFOPLIST_FILE: ProjectPulse/Info.plist
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGNING_REQUIRED: false
+        ENABLE_HARDENED_RUNTIME: false
+  ProjectPulseTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - ProjectPulseTests
+    dependencies:
+      - target: ProjectPulse
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.anibalin.ProjectPulseTests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ProjectPulse.app/Contents/MacOS/ProjectPulse"
+        BUNDLE_LOADER: "$(TEST_HOST)"
