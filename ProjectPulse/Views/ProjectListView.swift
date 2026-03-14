@@ -130,6 +130,7 @@ struct ProjectListView: View {
                 AppSettings.shared.pin(path: path)
             }
             selectedTab = .pinned
+            NotificationCenter.default.post(name: .refreshProjects, object: nil)
         }
     }
 

@@ -2,6 +2,11 @@ import Foundation
 
 enum GitInfoProvider {
     private static let gitPath = "/usr/bin/git"
+    private static let dateFormatter: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime]
+        return f
+    }()
 
     static func info(for repoPath: String) throws -> Project {
         let name = URL(fileURLWithPath: repoPath).lastPathComponent
@@ -13,9 +18,7 @@ enum GitInfoProvider {
                 gitPath, arguments: ["log", "-1", "--format=%aI"],
                 currentDirectory: repoPath
             )
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime]
-            date = formatter.date(from: dateStr)
+            date = dateFormatter.date(from: dateStr)
 
             message = try ShellCommand.run(
                 gitPath, arguments: ["log", "-1", "--format=%s"],

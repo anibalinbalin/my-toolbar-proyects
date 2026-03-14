@@ -10,6 +10,9 @@ class ProjectStore {
 
     init() {
         startRefreshing()
+        NotificationCenter.default.addObserver(forName: .refreshProjects, object: nil, queue: nil) { [weak self] _ in
+            Task { await self?.refresh() }
+        }
     }
 
     func startRefreshing() {
@@ -61,45 +64,46 @@ class ProjectStore {
         }
     }
 
-    var iconColor: Color {
-        let hasActive = projects.contains { $0.freshnessLevel != .sleeping }
-        return hasActive ? FreshnessLevel.activeColor : Color(hex: 0x555555)
-    }
 }
 
-private func spiralIcon(color: Color) -> NSImage {
-    let size: CGFloat = 18
-    let image = NSImage(size: NSSize(width: size, height: size), flipped: false) { rect in
-        let ctx = NSGraphicsContext.current!.cgContext
-        let center = CGPoint(x: size / 2, y: size / 2)
-        let path = CGMutablePath()
-        let turns: CGFloat = 2.5
-        let steps = 120
-        let maxRadius: CGFloat = size / 2 - 1
+private enum SpiralIcon {
+    static let white = makeSpiral(color: .white)
+    static let gray = makeSpiral(color: Color(hex: 0x888888))
 
-        for i in 0...steps {
-            let t = CGFloat(i) / CGFloat(steps)
-            let angle = t * turns * 2 * .pi
-            let r = t * maxRadius
-            let x = center.x + r * cos(angle)
-            let y = center.y + r * sin(angle)
-            if i == 0 {
-                path.move(to: CGPoint(x: x, y: y))
-            } else {
-                path.addLine(to: CGPoint(x: x, y: y))
+    private static func makeSpiral(color: Color) -> NSImage {
+        let size: CGFloat = 18
+        let image = NSImage(size: NSSize(width: size, height: size), flipped: false) { rect in
+            guard let ctx = NSGraphicsContext.current?.cgContext else { return false }
+            let center = CGPoint(x: size / 2, y: size / 2)
+            let path = CGMutablePath()
+            let turns: CGFloat = 2.5
+            let steps = 120
+            let maxRadius: CGFloat = size / 2 - 1
+
+            for i in 0...steps {
+                let t = CGFloat(i) / CGFloat(steps)
+                let angle = t * turns * 2 * .pi
+                let r = t * maxRadius
+                let x = center.x + r * cos(angle)
+                let y = center.y + r * sin(angle)
+                if i == 0 {
+                    path.move(to: CGPoint(x: x, y: y))
+                } else {
+                    path.addLine(to: CGPoint(x: x, y: y))
+                }
             }
-        }
 
-        let nsColor = NSColor(color)
-        ctx.setStrokeColor(nsColor.cgColor)
-        ctx.setLineWidth(1.5)
-        ctx.setLineCap(.round)
-        ctx.addPath(path)
-        ctx.strokePath()
-        return true
+            let nsColor = NSColor(color)
+            ctx.setStrokeColor(nsColor.cgColor)
+            ctx.setLineWidth(1.5)
+            ctx.setLineCap(.round)
+            ctx.addPath(path)
+            ctx.strokePath()
+            return true
+        }
+        image.isTemplate = false
+        return image
     }
-    image.isTemplate = false
-    return image
 }
 
 // MARK: - DraggableStatusBarButton (isa-swizzled onto NSStatusBarButton)
@@ -110,33 +114,32 @@ class DraggableStatusBarButton: NSStatusBarButton {
 
     var dropDelegate: AppDelegate? {
         get { objc_getAssociatedObject(self, &appDelegateKey) as? AppDelegate }
-        set { objc_setAssociatedObject(self, &appDelegateKey, newValue, .OBJC_ASSOCIATION_ASSIGN) }
+        set { objc_setAssociatedObject(self, &appDelegateKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 
+    private var dragHasDirectories = false
+
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        let hasDirs = hasDirectories(in: sender)
-        if hasDirs { self.image = spiralIcon(color: Color(hex: 0x888888)) }
-        return hasDirs ? .copy : []
+        dragHasDirectories = directoryURLs(from: sender)?.isEmpty == false
+        if dragHasDirectories { self.image = SpiralIcon.gray }
+        return dragHasDirectories ? .copy : []
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        return hasDirectories(in: sender) ? .copy : []
+        return dragHasDirectories ? .copy : []
     }
 
     override func draggingExited(_ sender: NSDraggingInfo?) {
-        self.image = spiralIcon(color: .white)
+        dragHasDirectories = false
+        self.image = SpiralIcon.white
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        self.image = spiralIcon(color: .white)
+        dragHasDirectories = false
+        self.image = SpiralIcon.white
         guard let urls = directoryURLs(from: sender), !urls.isEmpty else { return false }
         dropDelegate?.handleDrop(urls: urls)
         return true
-    }
-
-    private func hasDirectories(in info: NSDraggingInfo) -> Bool {
-        guard let urls = directoryURLs(from: info) else { return false }
-        return !urls.isEmpty
     }
 
     private func directoryURLs(from info: NSDraggingInfo) -> [URL]? {
@@ -173,7 +176,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
         if let button = statusItem.button {
-            button.image = spiralIcon(color: .white)
+            button.image = SpiralIcon.white
             button.action = #selector(togglePopover)
             button.target = self
 
@@ -181,8 +184,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             object_setClass(button, DraggableStatusBarButton.self)
             button.registerForDraggedTypes([.fileURL])
             (button as? DraggableStatusBarButton)?.dropDelegate = self
-
-
         }
 
         popover = NSPopover()
@@ -192,17 +193,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             rootView: PopoverContentView(store: store)
         )
 
-        trackIconColor()
     }
 
     @objc func togglePopover() {
-        guard let button = statusItem.button else { return }
         if popover.isShown {
             popover.performClose(nil)
         } else {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-            popover.contentViewController?.view.window?.makeKey()
+            showPopover()
         }
+    }
+
+    private func showPopover() {
+        guard let button = statusItem.button else { return }
+        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        popover.contentViewController?.view.window?.makeKey()
     }
 
     func handleDrop(urls: [URL]) {
@@ -212,23 +216,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             settings.pin(path: url.path)
         }
         Task { await store.refresh() }
-
-        // Show popover on Pinned tab
-        guard let button = statusItem.button else { return }
-        if !popover.isShown {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-            popover.contentViewController?.view.window?.makeKey()
-        }
+        if !popover.isShown { showPopover() }
         NotificationCenter.default.post(name: .switchToPinnedTab, object: nil)
-    }
-
-    private func trackIconColor() {
-        // Icon is always white; observation kept for future use
     }
 }
 
 extension Notification.Name {
     static let switchToPinnedTab = Notification.Name("switchToPinnedTab")
+    static let refreshProjects = Notification.Name("refreshProjects")
 }
 
 // MARK: - App Entry Point
