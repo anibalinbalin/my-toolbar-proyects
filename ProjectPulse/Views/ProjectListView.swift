@@ -1,27 +1,14 @@
 import SwiftUI
 import AppKit
 
-struct WindowResizer: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSView {
-        let view = NSView()
-        DispatchQueue.main.async {
-            if let window = view.window {
-                window.styleMask.insert(.resizable)
-                window.minSize = NSSize(width: 340, height: 200)
-                window.maxSize = NSSize(width: 340, height: 900)
-            }
-        }
-        return view
-    }
-    func updateNSView(_ nsView: NSView, context: Context) {}
-}
-
 struct ProjectListView: View {
     let projects: [Project]
     let scanPath: String
-    @State private var showingAddProject = false
-    @State private var newProjectName = ""
-    @State private var newProjectPath = ""
+    enum Tab: String, CaseIterable {
+        case pinned = "Pinned"
+        case all = "All"
+    }
+    @State private var selectedTab: Tab = .all
 
     private var sleepingCount: Int {
         projects.filter { $0.freshnessLevel == .sleeping }.count
@@ -29,6 +16,15 @@ struct ProjectListView: View {
 
     private var hiddenCount: Int {
         AppSettings.shared.hiddenPaths.count
+    }
+
+    private var filteredProjects: [Project] {
+        switch selectedTab {
+        case .pinned:
+            return projects.filter { AppSettings.shared.isPinned(path: $0.path) }
+        case .all:
+            return projects.filter { !AppSettings.shared.isPinned(path: $0.path) }
+        }
     }
 
     var body: some View {
@@ -51,10 +47,28 @@ struct ProjectListView: View {
             Divider()
                 .background(Color.white.opacity(0.06))
 
+            // Tab picker
+            HStack(spacing: 0) {
+                ForEach(Tab.allCases, id: \.self) { tab in
+                    Button {
+                        selectedTab = tab
+                    } label: {
+                        Text(tab.rawValue)
+                            .font(.system(size: 11, weight: selectedTab == tab ? .semibold : .regular))
+                            .foregroundColor(selectedTab == tab ? .white : Color(hex: 0x555555))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 4)
+
             // Project list
             ScrollView {
                 LazyVStack(spacing: 4) {
-                    ForEach(projects.sorted()) { project in
+                    ForEach(filteredProjects.sorted()) { project in
                         ProjectRowView(project: project, onTap: {
                             openTerminal(at: project.path)
                         })
@@ -86,9 +100,7 @@ struct ProjectListView: View {
                 Spacer()
 
                 Button("+") {
-                    newProjectName = ""
-                    newProjectPath = ""
-                    showingAddProject = true
+                    addFolderAndPin()
                 }
                 .buttonStyle(.plain)
                 .font(.system(size: 13, weight: .medium))
@@ -99,45 +111,25 @@ struct ProjectListView: View {
 
         }
         .frame(width: 340)
-        .background(WindowResizer())
-        .popover(isPresented: $showingAddProject, arrowEdge: .bottom) {
-            VStack(spacing: 12) {
-                Text("Add Project")
-                    .font(.system(size: 13, weight: .semibold))
-                TextField("Name", text: $newProjectName)
-                    .textFieldStyle(.roundedBorder)
-                HStack {
-                    TextField("Path (optional)", text: $newProjectPath)
-                        .textFieldStyle(.roundedBorder)
-                    Button("Browse") {
-                        let panel = NSOpenPanel()
-                        panel.canChooseDirectories = true
-                        panel.canChooseFiles = false
-                        panel.allowsMultipleSelection = false
-                        if panel.runModal() == .OK, let url = panel.url {
-                            newProjectPath = url.path
-                            if newProjectName.isEmpty {
-                                newProjectName = url.lastPathComponent
-                            }
-                        }
-                    }
-                }
-                HStack {
-                    Spacer()
-                    Button("Cancel") { showingAddProject = false }
-                    Button("Add") {
-                        guard !newProjectName.isEmpty else { return }
-                        AppSettings.shared.addManualProject(
-                            name: newProjectName,
-                            path: newProjectPath.isEmpty ? newProjectName : newProjectPath
-                        )
-                        showingAddProject = false
-                    }
-                    .keyboardShortcut(.defaultAction)
-                }
+        .onReceive(NotificationCenter.default.publisher(for: .switchToPinnedTab)) { _ in
+            selectedTab = .pinned
+        }
+    }
+
+    private func addFolderAndPin() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = true
+        panel.message = "Select folders to pin"
+        if panel.runModal() == .OK {
+            for url in panel.urls {
+                let name = url.lastPathComponent
+                let path = url.path
+                AppSettings.shared.addManualProject(name: name, path: path)
+                AppSettings.shared.pin(path: path)
             }
-            .padding(16)
-            .frame(width: 300)
+            selectedTab = .pinned
         }
     }
 

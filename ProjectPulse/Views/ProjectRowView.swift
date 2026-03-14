@@ -24,6 +24,19 @@ struct ProjectRowView: View {
                         .font(.system(size: 13, weight: .medium))
                         .foregroundColor(.white.opacity(project.freshnessLevel.nameOpacity))
                     Spacer()
+
+                    let pinned = AppSettings.shared.isPinned(path: project.path)
+                    if isHovered || pinned {
+                        Button {
+                            AppSettings.shared.togglePin(path: project.path)
+                        } label: {
+                            Image(systemName: pinned ? "pin.fill" : "pin")
+                                .font(.system(size: 11))
+                                .foregroundColor(pinned ? .white.opacity(0.7) : .white.opacity(0.4))
+                        }
+                        .buttonStyle(.plain)
+                    }
+
                     Text(Project.relativeDate(from: project.lastCommitDate))
                         .font(.system(size: 11))
                         .foregroundColor(Color(hex: 0x666666))

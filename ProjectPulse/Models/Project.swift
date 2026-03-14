@@ -26,10 +26,23 @@ struct Project: Identifiable, Comparable {
     }
 
     static func < (lhs: Project, rhs: Project) -> Bool {
-        if lhs.freshness != rhs.freshness {
-            return lhs.freshness > rhs.freshness
+        // Both active: sort by freshness descending
+        if lhs.freshness > 0 && rhs.freshness > 0 {
+            if lhs.freshness != rhs.freshness {
+                return lhs.freshness > rhs.freshness
+            }
+            return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
         }
-        return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
+        // Active before sleeping
+        if lhs.freshness > 0 { return true }
+        if rhs.freshness > 0 { return false }
+        // Both sleeping: sort by lastCommitDate descending (newest first, nil last)
+        switch (lhs.lastCommitDate, rhs.lastCommitDate) {
+        case let (l?, r?): return l > r
+        case (_?, nil): return true
+        case (nil, _?): return false
+        default: return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
+        }
     }
 
     static func relativeDate(from date: Date?) -> String {
@@ -46,11 +59,11 @@ struct Project: Identifiable, Comparable {
 enum FreshnessLevel {
     case fresh, warm, cooling, sleeping
 
+    static let activeColor = Color(hex: 0xE8863A)
+
     var barColors: (Color, Color) {
         switch self {
-        case .fresh: return (Color(hex: 0x22c55e), Color(hex: 0x4ade80))
-        case .warm: return (Color(hex: 0xeab308), Color(hex: 0xfacc15))
-        case .cooling: return (Color(hex: 0xf97316), Color(hex: 0xfb923c))
+        case .fresh, .warm, .cooling: return (Self.activeColor, Self.activeColor)
         case .sleeping: return (.clear, .clear)
         }
     }
